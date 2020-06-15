@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css';
 
 function App() {
   const [searchValue, setSearchValue] = useState([]);
@@ -53,14 +52,19 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="input-group mb-3">
-        <p>Viewing {users.length} of {userCount} total results:</p>
-      </div>
-
+      {
+        users.length ?
+        (
+        <div className="input-group mb-3">
+          <p>Viewing {users.length} of {userCount} total results:</p>
+        </div>
+        ) :
+        null
+      }
       <div className="row">
       {users.map((user) => (
         <div key={user.id} className="col-6 col-sm-3 col-md-2">
-        <div className="card mb-2">
+        <div className="card mb-4">
           <img src={user.avatarUrl} className="card-img-top" alt={user.login} />
           <div className="card-body">
             <h5 className="card-title">
@@ -74,12 +78,20 @@ function App() {
       {
         users.length ?
         (
-          <button
-            className="btn btn-primary"
-            onClick={paginatedSearch}
-          >
-            View More Users
-          </button>
+          <div className="mb-5">
+            <button
+              className="btn btn-primary"
+              onClick={paginatedSearch}
+            >
+              View More Users
+            </button>
+            <button
+              className="btn btn-secondary"
+              // onClick={paginatedSearch}
+            >
+              Scroll to Top
+            </button>
+          </div>
         ) :
         null
       }
