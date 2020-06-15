@@ -1,4 +1,5 @@
 require('dotenv').config();
+var cors = require('cors');
 const express = require('express');
 var bodyParser = require('body-parser');
 const {
@@ -11,6 +12,7 @@ const {
 } = require('./github.js');
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
