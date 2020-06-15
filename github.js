@@ -6,6 +6,7 @@ const GitHubRequestHandler = (req, res) => {
   console.log('General request')
   const userQuery = `query SearchUsers($queryString: String!) {
     search(type: USER, query: $queryString, first: 12) {
+      userCount
       nodes {
         ...on User {
           id
