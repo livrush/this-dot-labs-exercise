@@ -3,6 +3,7 @@ const axios = require('axios');
 const { GITHUB_API_TOKEN } = process.env;
 
 const GitHubRequestHandler = (req, res) => {
+  console.log('General request')
   const userQuery = `query SearchUsers($queryString: String!) {
     search(type: USER, query: $queryString, first: 10) {
       nodes {
@@ -11,13 +12,17 @@ const GitHubRequestHandler = (req, res) => {
           login
         }
       }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }`;
 
   axios.post('https://api.github.com/graphql', {
     query: userQuery,
     variables: {
-      "queryString": `${req.query.username} in:login`
+      queryString: `${req.params.username} in:login`,
     },
   }, {
     headers: {
@@ -25,10 +30,45 @@ const GitHubRequestHandler = (req, res) => {
     }
   })
     .then(response => response.data)
-    .then(response => {res.send(response)})
+    .then(response => {res.send(response.data.search)})
+    .catch(error => {console.error(error)});
+};
+
+const GitHubRequestPaginationHandler = (req, res) => {
+  console.log('Pagination request')
+  const userQuery = `query SearchUsers($queryString: String!, $after: String!) {
+    search(type: USER, query: $queryString, first: 10, after: $after) {
+      nodes {
+        ...on User {
+          id
+          login
+        }
+      }
+      pageInfo {
+        startCursor
+        hasNextPage
+        endCursor
+      }
+    }
+  }`;
+
+  axios.post('https://api.github.com/graphql', {
+    query: userQuery,
+    variables: {
+      queryString: `${req.params.username} in:login`,
+      after: req.params.cursor,
+    },
+  }, {
+    headers: {
+      Authorization: `bearer ${GITHUB_API_TOKEN}`,
+    }
+  })
+    .then(response => response.data)
+    .then(response => {res.send(response.data.search)})
     .catch(error => {console.error(error)});
 };
 
 module.exports = {
   GitHubRequestHandler,
+  GitHubRequestPaginationHandler,
 };
