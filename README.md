@@ -7,7 +7,7 @@ Project made for **This Dot Labs** code project
 ```
 PORT
 PORT_SERVER
-GITHUB_API_KEY
+GITHUB_API_TOKEN
 ```
 
 ## Architecture Explanation
