@@ -5,12 +5,16 @@ import './App.css';
 function App() {
   const [searchValue, setSearchValue] = useState([]);
   const [users, setUsers] = useState([]);
-  // const [userCursor, setUserCursor] = useState('');
+  const [userCursor, setUserCursor] = useState('');
 
   function initialSearch() {
     axios
       .get(`http://localhost:4000/api/github/user/${searchValue}`)
-      .then(console.log)
+      .then(res => res.data)
+      .then(({ nodes, pageInfo }) => {
+        setUsers(nodes);
+        setUserCursor(pageInfo.endCursor);
+      })
       .catch(console.error);
   }
 
