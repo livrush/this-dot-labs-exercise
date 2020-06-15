@@ -5,11 +5,13 @@ const { GITHUB_API_TOKEN } = process.env;
 const GitHubRequestHandler = (req, res) => {
   console.log('General request')
   const userQuery = `query SearchUsers($queryString: String!) {
-    search(type: USER, query: $queryString, first: 10) {
+    search(type: USER, query: $queryString, first: 12) {
       nodes {
         ...on User {
           id
+          avatarUrl
           login
+          url
         }
       }
       pageInfo {
@@ -37,11 +39,13 @@ const GitHubRequestHandler = (req, res) => {
 const GitHubRequestPaginationHandler = (req, res) => {
   console.log('Pagination request')
   const userQuery = `query SearchUsers($queryString: String!, $after: String!) {
-    search(type: USER, query: $queryString, first: 10, after: $after) {
+    search(type: USER, query: $queryString, first: 12, after: $after) {
       nodes {
         ...on User {
           id
+          avatarUrl
           login
+          url
         }
       }
       pageInfo {
