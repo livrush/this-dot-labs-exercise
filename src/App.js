@@ -8,11 +8,15 @@ function App() {
   const [userCursor, setUserCursor] = useState('');
 
   function initialSearch() {
+    const requestUrl = userCursor ?
+      `http://localhost:4000/api/github/user/${searchValue}/cursor/${userCursor}` :
+      `http://localhost:4000/api/github/user/${searchValue}`;
+
     axios
-      .get(`http://localhost:4000/api/github/user/${searchValue}`)
+      .get(requestUrl)
       .then(res => res.data)
       .then(({ nodes, pageInfo }) => {
-        setUsers(nodes);
+        setUsers([...users, ...nodes]);
         setUserCursor(pageInfo.endCursor);
       })
       .catch(console.error);
@@ -34,9 +38,21 @@ function App() {
           </button>
         </div>
       </div>
+      <div className="row">
       {users.map((user) => (
-        <div key={user.id}>{user.login}</div>
+        <div key={user.id} className="col-3">
+        <div className="card">
+          <img src={user.avatarUrl} class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">
+              {user.login}
+            </h5>
+          </div>
+        </div>
+        </div>
       ))}
+      </div>
+      {}
     </div>
   );
 }
