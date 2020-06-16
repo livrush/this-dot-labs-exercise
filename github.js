@@ -10,9 +10,21 @@ const GitHubRequestHandler = (req, res) => {
       nodes {
         ...on User {
           id
-          avatarUrl
           login
-          url
+          avatarUrl
+          bio
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+          repositories {
+            totalCount
+          }
+          starredRepositories {
+            totalCount
+          }
         }
       }
       pageInfo {
@@ -33,6 +45,7 @@ const GitHubRequestHandler = (req, res) => {
     }
   })
     .then(response => response.data)
+    .then(response => {console.log(response.data.search.nodes); return response})
     .then(response => {res.send(response.data.search)})
     .catch(error => {console.error(error)});
 };
@@ -44,9 +57,21 @@ const GitHubRequestPaginationHandler = (req, res) => {
       nodes {
         ...on User {
           id
-          avatarUrl
           login
-          url
+          avatarUrl
+          bio
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+          repositories {
+            totalCount
+          }
+          starredRepositories {
+            totalCount
+          }
         }
       }
       pageInfo {
