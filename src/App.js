@@ -4,24 +4,27 @@ import axios from 'axios';
 import { UserCard } from './components/UserCard';
 
 function App() {
-  const [searchValue, setSearchValue] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [users, setUsers] = useState([]);
   const [userCount, setUserCount] = useState(0);
-  const [userCursor, setUserCursor] = useState('');
+  const [paginationInfo, setPaginationInfo] = useState({});
+
+  const reqUrl = 'http://localhost:4000/api/github/user';
 
   function initialSearch() {
     if (searchValue) {
       axios
-      .get(`http://localhost:4000/api/github/user/${searchValue}`)
+      .get(`${reqUrl}/${searchValue}`)
       .then(res => res.data)
       .then(({
             nodes,
             pageInfo,
             userCount
           }) => {
+        console.log(pageInfo);
         setUsers(nodes);
         setUserCount(userCount)
-        setUserCursor(pageInfo.endCursor);
+        setPaginationInfo(pageInfo)
       })
       .catch(console.error);
     }
@@ -29,11 +32,11 @@ function App() {
 
   function paginatedSearch() {
     axios
-      .get(`http://localhost:4000/api/github/user/${searchValue}/cursor/${userCursor}`)
+      .get(`${reqUrl}/${searchValue}/cursor/${paginationInfo.endCursor}`)
       .then(res => res.data)
       .then(({ nodes, pageInfo }) => {
         setUsers([...users, ...nodes]);
-        setUserCursor(pageInfo.endCursor);
+        setPaginationInfo(pageInfo)
       })
       .catch(console.error);
   }
@@ -74,18 +77,20 @@ function App() {
       {
         users.length ?
         (
-          <div className="mt-2">
+          <div className="mt-2 btn-group">
             <button
               className="btn btn-primary"
               onClick={paginatedSearch}
+              disabled={!paginationInfo.hasPreviousPage}
             >
-              View More Users
+              Prev Page
             </button>
             <button
-              className="btn btn-secondary"
-              // onClick={paginatedSearch}
+              className="btn btn-primary"
+              onClick={paginatedSearch}
+              disabled={!paginationInfo.hasNextPage}
             >
-              Scroll to Top
+              Next Page
             </button>
           </div>
         ) :
