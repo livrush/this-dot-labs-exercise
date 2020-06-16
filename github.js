@@ -2,30 +2,34 @@ require('dotenv').config();
 const axios = require('axios');
 const { GITHUB_API_TOKEN } = process.env;
 
+const userInfoQuery = `
+id
+avatarUrl
+bio
+login
+name
+url
+followers {
+  totalCount
+}
+following {
+  totalCount
+}
+repositories {
+  totalCount
+}
+starredRepositories {
+  totalCount
+}
+`
+
 const GitHubRequestHandler = (req, res) => {
   const userQuery = `query SearchUsers($queryString: String!) {
     search(type: USER, query: $queryString, first: 12) {
       userCount
       nodes {
         ...on User {
-          id
-          avatarUrl
-          bio
-          login
-          name
-          url
-          followers {
-            totalCount
-          }
-          following {
-            totalCount
-          }
-          repositories {
-            totalCount
-          }
-          starredRepositories {
-            totalCount
-          }
+          ${userInfoQuery}
         }
       }
       pageInfo {
@@ -62,23 +66,7 @@ const GitHubRequestPaginationHandler = (req, res) => {
     search(type: USER, query: $queryString, first: 12, after: $after) {
       nodes {
         ...on User {
-          id
-          avatarUrl
-          bio
-          login
-          url
-          followers {
-            totalCount
-          }
-          following {
-            totalCount
-          }
-          repositories {
-            totalCount
-          }
-          starredRepositories {
-            totalCount
-          }
+          ${userInfoQuery}
         }
       }
       pageInfo {
