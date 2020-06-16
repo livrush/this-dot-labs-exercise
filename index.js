@@ -21,6 +21,9 @@ app.get('/api/github/user/:username', GitHubRequestHandler);
 
 app.get('/api/github/user/:username/cursor/:cursor', GitHubRequestPaginationHandler);
 
+app.get('/api/github/user/:username/after/:after', GitHubRequestPaginationHandler);
+app.get('/api/github/user/:username/before/:before', GitHubRequestPaginationHandler);
+
 app.listen(PORT_SERVER || 4000, () =>
   console.log(`API server listening at http://localhost:${PORT_SERVER || 4000}`),
 );

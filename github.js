@@ -64,8 +64,18 @@ const GitHubRequestHandler = (req, res) => {
 };
 
 const GitHubRequestPaginationHandler = (req, res) => {
-  const userQuery = `query SearchUsers($queryString: String!, $after: String!) {
-    search(type: USER, query: $queryString, first: 12, after: $after) {
+  let cursorVariable = '';
+  let direction = '';
+  if (req.params.before) {
+    cursorVariable = 'before';
+    direction = 'last';
+  } else if (req.params.after) {
+    cursorVariable = 'after';
+    direction = 'first';
+  }
+
+  const userQuery = `query SearchUsers($username: String!, $${cursorVariable}: String!) {
+    search(type: USER, query: $username, ${direction}: 12, ${cursorVariable}: $${cursorVariable}) {
       nodes {
         ...on User {
           ${userInfoQuery}
@@ -83,8 +93,9 @@ const GitHubRequestPaginationHandler = (req, res) => {
   axios.post('https://api.github.com/graphql', {
     query: userQuery,
     variables: {
-      queryString: `${req.params.username} in:login`,
-      after: req.params.cursor,
+      ...req.params,
+      username: `${req.params.username} in:login`,
+      // after: req.params.cursor,
     },
   }, {
     headers: {
