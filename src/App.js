@@ -66,7 +66,7 @@ function App() {
       }
       <div className="row">
       {users.map((user) => (
-        <div key={user.id} className="col-6 col-sm-4 col-sm-3">
+        <div key={user.id} className="col-12 col-sm-4 col-sm-3">
           <UserCard info={user} />
         </div>
       ))}
