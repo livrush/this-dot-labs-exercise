@@ -16,10 +16,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.get('/api/github/user', GitHubRequestHandler);
 app.get('/api/github/user/:username', GitHubRequestHandler);
-
-app.get('/api/github/user/:username/cursor/:cursor', GitHubRequestPaginationHandler);
 
 app.get('/api/github/user/:username/after/:after', GitHubRequestPaginationHandler);
 app.get('/api/github/user/:username/before/:before', GitHubRequestPaginationHandler);
