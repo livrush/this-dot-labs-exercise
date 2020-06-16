@@ -2,6 +2,13 @@ import React from 'react';
 import { UserCard } from './UserCard';
 
 const UserList = ({ users, count }) => {
+  if (!users.length) {
+    return (
+      <p className="empty text-center">
+        No users to show! Try a new search.
+      </p>
+    )
+  }
   return (
     <div className="user-list">
       {users.length ? (
