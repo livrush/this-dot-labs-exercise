@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { UserCard } from './components/UserCard';
+import { UserList } from './components/UserList';
+import { Pacifier } from './components/Pacifier';
 
 function App() {
+  const [pacifierVisible, setPacifierVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [users, setUsers] = useState([]);
   const [userCount, setUserCount] = useState(0);
@@ -64,36 +66,22 @@ function App() {
           </button>
         </div>
       </div>
-      {
-        users.length ?
-        (
-        <div className="input-group mb-3">
-          <p>Viewing {users.length} of {userCount} total results:</p>
-        </div>
-        ) :
-        null
-      }
-      <div className="row">
-      {users.map((user) => (
-        <div key={user.id} className="col-12 col-sm-4 col-sm-3">
-          <UserCard info={user} />
-        </div>
-      ))}
-      </div>
+      <Pacifier show={pacifierVisible} />
+      <UserList users={users} count={userCount} />
       {
         users.length ?
         (
           <div className="mt-2 btn-group">
             <button
               className="btn btn-primary"
-              onClick={paginatedSearch}
+              onClick={() => paginatedSearch({before: paginationInfo.startCursor})}
               disabled={!paginationInfo.hasPreviousPage}
             >
               Prev Page
             </button>
             <button
               className="btn btn-primary"
-              onClick={paginatedSearch}
+              onClick={() => paginatedSearch({after: paginationInfo.endCursor})}
               disabled={!paginationInfo.hasNextPage}
             >
               Next Page
