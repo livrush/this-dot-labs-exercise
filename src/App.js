@@ -37,8 +37,9 @@ function App() {
   }
 
   return (
-    <div className="App bg-secondary container">
+    <div className="App bg-secondary container py-3">
       <h1 className="h1">GitHub Users Search</h1>
+      <p>Enter a username to search for on GitHub</p>
       <div className="input-group mb-3">
         <input
           type="text"
@@ -78,7 +79,7 @@ function App() {
       {
         users.length ?
         (
-          <div className="mb-5">
+          <div className="mt-2">
             <button
               className="btn btn-primary"
               onClick={paginatedSearch}
