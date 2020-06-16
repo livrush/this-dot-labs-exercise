@@ -4,18 +4,18 @@ import { UserCard } from './UserCard';
 const UserList = ({ users, count }) => {
   if (!users.length) {
     return (
-      <p className="empty text-center">
+      <h4 className="empty text-center">
         No users to show! Try a new search.
-      </p>
+      </h4>
     )
   }
   return (
     <div className="user-list">
       {users.length ? (
         <div className="input-group mb-3">
-          <p>
+          <h4>
             Viewing {users.length} of {count} total results:
-          </p>
+          </h4>
         </div>
       ) : null}
       <div className="row">
