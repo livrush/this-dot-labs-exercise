@@ -7,6 +7,7 @@ import { Pacifier } from './components/Pacifier';
 function App() {
   const [pacifierVisible, setPacifierVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [previousSearchValue, setPreviousSearchValue] = useState('');
   const [users, setUsers] = useState([]);
   const [userCount, setUserCount] = useState(0);
   const [paginationInfo, setPaginationInfo] = useState({});
@@ -15,36 +16,40 @@ function App() {
 
   function initialSearch() {
     if (searchValue) {
+      setPacifierVisible(true);
       axios
-      .get(`${reqUrlBase}/${searchValue}`)
-      .then(res => res.data)
-      .then(({
-            nodes,
-            pageInfo,
-            userCount
-          }) => {
-        console.log(pageInfo);
-        setUsers(nodes);
-        setUserCount(userCount)
-        setPaginationInfo(pageInfo)
-      })
-      .catch(console.error);
+        .get(`${reqUrlBase}/${searchValue}`)
+        .then(res => res.data)
+        .then(({
+              nodes,
+              pageInfo,
+              userCount
+            }) => {
+          setPreviousSearchValue(searchValue);
+          setUsers(nodes);
+          setUserCount(userCount);
+          setPaginationInfo(pageInfo);
+          setPacifierVisible(false);
+        })
+        .catch(console.error);
     }
   }
 
   function paginatedSearch({ before, after }) {
-    let reqUrl = `${reqUrlBase}/${searchValue}`;
+    let reqUrl = `${reqUrlBase}/${previousSearchValue}`;
     if (before) {
       reqUrl = `${reqUrl}/before/${before}`;
     } else if (after) {
       reqUrl = `${reqUrl}/after/${after}`;
     }
+    setPacifierVisible(true);
     axios
       .get(reqUrl)
       .then(res => res.data)
       .then(({ nodes, pageInfo }) => {
         setUsers(nodes);
         setPaginationInfo(pageInfo)
+        setPacifierVisible(false);
       })
       .catch(console.error);
   }
@@ -66,12 +71,15 @@ function App() {
           </button>
         </div>
       </div>
-      <Pacifier show={pacifierVisible} />
-      <UserList users={users} count={userCount} />
       {
-        users.length ?
+        pacifierVisible ?
+        <Pacifier /> :
+        <UserList users={users} count={userCount} />
+      }
+      {
+        users.length && !pacifierVisible ?
         (
-          <div className="mt-2 btn-group">
+          <div className="mt-2 btn-group d-flex">
             <button
               className="btn btn-primary"
               onClick={() => paginatedSearch({before: paginationInfo.startCursor})}
