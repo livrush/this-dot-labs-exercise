@@ -9,12 +9,12 @@ function App() {
   const [userCount, setUserCount] = useState(0);
   const [paginationInfo, setPaginationInfo] = useState({});
 
-  const reqUrl = 'http://localhost:4000/api/github/user';
+  const reqUrlBase = 'http://localhost:4000/api/github/user';
 
   function initialSearch() {
     if (searchValue) {
       axios
-      .get(`${reqUrl}/${searchValue}`)
+      .get(`${reqUrlBase}/${searchValue}`)
       .then(res => res.data)
       .then(({
             nodes,
@@ -30,12 +30,18 @@ function App() {
     }
   }
 
-  function paginatedSearch() {
+  function paginatedSearch({ before, after }) {
+    let reqUrl = `${reqUrlBase}/${searchValue}`;
+    if (before) {
+      reqUrl = `${reqUrl}/before/${before}`;
+    } else if (after) {
+      reqUrl = `${reqUrl}/after/${after}`;
+    }
     axios
-      .get(`${reqUrl}/${searchValue}/cursor/${paginationInfo.endCursor}`)
+      .get(reqUrl)
       .then(res => res.data)
       .then(({ nodes, pageInfo }) => {
-        setUsers([...users, ...nodes]);
+        setUsers(nodes);
         setPaginationInfo(pageInfo)
       })
       .catch(console.error);
