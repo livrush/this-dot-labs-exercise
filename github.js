@@ -12,6 +12,7 @@ const GitHubRequestHandler = (req, res) => {
           avatarUrl
           bio
           login
+          name
           url
           followers {
             totalCount
