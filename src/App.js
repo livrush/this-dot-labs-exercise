@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { UserCard } from './components/UserCard';
+
 function App() {
   const [searchValue, setSearchValue] = useState([]);
   const [users, setUsers] = useState([]);
@@ -64,15 +66,8 @@ function App() {
       }
       <div className="row">
       {users.map((user) => (
-        <div key={user.id} className="col-6 col-sm-3 col-md-2">
-        <div className="card mb-4">
-          <img src={user.avatarUrl} className="card-img-top" alt={user.login} />
-          <div className="card-body">
-            <h5 className="card-title">
-              {user.login}
-            </h5>
-          </div>
-        </div>
+        <div key={user.id} className="col-6 col-sm-4 col-sm-3">
+          <UserCard info={user} />
         </div>
       ))}
       </div>
