@@ -17,10 +17,12 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "client": "react-scripts start",
-    "server": "nodemon index.js",
-    "server-dev": "nodemon index.js",
+    "client": "node index.js",
+    "server": "node api/index.js",
     "start": "concurrently \"npm:client\" \"npm:server\"",
+    "client-dev": "react-scripts start",
+    "server-dev": "nodemon ./api/index.js",
+    "dev": "concurrently \"npm:client-dev\" \"npm:server-dev\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
