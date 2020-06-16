@@ -1,11 +1,10 @@
 import React from 'react';
 
-const Pacifier = ({ show }) => {
-  if (!show) return null;
+const Pacifier = () => {
   return (
-    <div>
-      Pacifier
-    </div>
+    <h2 className="text-center">
+      Fetching Search Results...
+    </h2>
   );
 };
 
