@@ -33,8 +33,10 @@ const GitHubRequestHandler = (req, res) => {
         }
       }
       pageInfo {
+        startCursor
         hasNextPage
         endCursor
+        hasPreviousPage
       }
     }
   }`;
@@ -73,6 +75,7 @@ const GitHubRequestPaginationHandler = (req, res) => {
         startCursor
         hasNextPage
         endCursor
+        hasPreviousPage
       }
     }
   }`;
