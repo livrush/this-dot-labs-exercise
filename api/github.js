@@ -24,7 +24,6 @@ starredRepositories {
 `;
 
 const GitHubRequestHandler = (req, res) => {
-  console.log('Initial request hit');
   const userQuery = `query SearchUsers($queryString: String!) {
     search(type: USER, query: $queryString, first: 12) {
       userCount
@@ -65,7 +64,6 @@ const GitHubRequestHandler = (req, res) => {
 };
 
 const GitHubRequestPaginationHandler = (req, res) => {
-  console.log('Paginated request hit');
   let cursorVariable = '';
   let direction = '';
   if (req.params.before) {
