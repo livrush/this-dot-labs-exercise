@@ -12,7 +12,7 @@ function App() {
   const [userCount, setUserCount] = useState(0);
   const [paginationInfo, setPaginationInfo] = useState({});
 
-  const reqUrlBase = 'http://localhost:4000/api/github/user';
+  const reqUrlBase = '/api/github/user';
 
   function initialSearch() {
     if (searchValue) {
