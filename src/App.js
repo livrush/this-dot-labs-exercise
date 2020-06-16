@@ -73,7 +73,7 @@ function App() {
       </div>
       {
         pacifierVisible ?
-        <Pacifier /> :
+        <Pacifier message="Fetching Search Results..." /> :
         <UserList users={users} count={userCount} />
       }
       {

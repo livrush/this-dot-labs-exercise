@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Pacifier = () => {
+const Pacifier = ({ message }) => {
   return (
     <h2 className="text-center">
-      Fetching Search Results...
+      {message}
     </h2>
   );
 };
