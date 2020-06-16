@@ -45,8 +45,14 @@ const GitHubRequestHandler = (req, res) => {
     }
   })
     .then(response => response.data)
-    .then(response => {console.log(response.data.search.nodes); return response})
-    .then(response => {res.send(response.data.search)})
+    .then(response => response.data.search)
+    .then(searchData => ({
+      ...searchData,
+      nodes: searchData.nodes.filter(node => node.id),
+    }))
+    .then(searchData => {
+      res.send(searchData)
+    })
     .catch(error => {console.error(error)});
 };
 
@@ -94,7 +100,12 @@ const GitHubRequestPaginationHandler = (req, res) => {
     }
   })
     .then(response => response.data)
-    .then(response => {res.send(response.data.search)})
+    .then(response => response.data.search)
+    .then(searchData => ({
+      ...searchData,
+      nodes: searchData.nodes.filter(node => node.id),
+    }))
+    .then(searchData => {res.send(searchData)})
     .catch(error => {console.error(error)});
 };
 
