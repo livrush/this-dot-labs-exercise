@@ -14,8 +14,8 @@ const UserCard = ({ info }) => {
         <p className="font-weight-bold">{info.name}</p>
         <p>{info.bio}</p>
       </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
+      <ul className="list-group list-group-flush">
+        <li className="list-group-item">
           <a
             href={`${info.url}?tab=repositories`}
             className="d-flex justify-content-between"
@@ -26,7 +26,7 @@ const UserCard = ({ info }) => {
             <span>{info.repositories.totalCount}</span>
           </a>
         </li>
-        <li class="list-group-item">
+        <li className="list-group-item">
           <a
             href={`${info.url}?tab=followers`}
             className="d-flex justify-content-between"
@@ -37,7 +37,7 @@ const UserCard = ({ info }) => {
             <span>{info.followers.totalCount}</span>
           </a>
         </li>
-        <li class="list-group-item">
+        <li className="list-group-item">
           <a
             href={`${info.url}?tab=following`}
             className="d-flex justify-content-between"
@@ -48,7 +48,7 @@ const UserCard = ({ info }) => {
             <span>{info.following.totalCount}</span>
           </a>
         </li>
-        <li class="list-group-item">
+        <li className="list-group-item">
           <a
             href={`${info.url}?tab=stars`}
             className="d-flex justify-content-between"
